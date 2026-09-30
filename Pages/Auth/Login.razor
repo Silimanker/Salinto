@@ -1,0 +1,20 @@
+@page "/"
+@page "/login"
+@layout AuthLayout
+
+<h1>Log in</h1>
+<p class="lede">Welcome back.</p>
+
+<form class="form">
+    <div class="field">
+        <label for="username-or-email">Username or email</label>
+        <input id="username-or-email" type="text" autocomplete="username" />
+    </div>
+    <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" autocomplete="current-password" />
+    </div>
+    <a class="btn primary block" href="dashboard">Log in</a>
+</form>
+
+<p class="alt">New to Salinto? <a href="register">Create an account</a></p>

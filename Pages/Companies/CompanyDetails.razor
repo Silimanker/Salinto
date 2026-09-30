@@ -1,0 +1,111 @@
+@page "/company"
+
+<div class="wrap">
+    <div class="company">
+        <span class="badge lg">TP</span>
+        <div class="grow">
+            <h1>TechPulse Philippines Inc.</h1>
+            <p class="muted">IT and BPO services. Bonifacio Global City, Taguig</p>
+        </div>
+        <div class="score"><span class="big num">4.2</span><span class="muted">128 reviews</span></div>
+        <button class="btn" type="button">Follow</button>
+    </div>
+
+    <div class="seg" role="group" aria-label="Employment type">
+        <button type="button" class="on">All</button>
+        <button type="button">Direct hire</button>
+        <button type="button">Agency hired</button>
+        <button type="button">Project based</button>
+    </div>
+
+    <div class="cols wide">
+        <section>
+            <h2>Reviews</h2>
+
+            <article class="review">
+                <header>
+                    <div>
+                        <span class="strong">Mid-level backend developer</span>
+                        <span class="tag">Direct hire</span>
+                        <div class="muted">Sep 18, 2026</div>
+                    </div>
+                    <span class="pips" aria-label="4 out of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span>
+                </header>
+                <p>HMO covers two dependents from day one. 13th-month pay is always released before December 15. Release cycles get heavy, but overtime is tracked accurately and paid on time.</p>
+                <footer><button class="link" type="button">Helpful (14)</button><button class="link muted" type="button">Report</button></footer>
+            </article>
+
+            <article class="review">
+                <header>
+                    <div>
+                        <span class="strong">Technical support specialist</span>
+                        <span class="tag">Agency hired</span>
+                        <div class="muted">Aug 30, 2026</div>
+                    </div>
+                    <span class="pips" aria-label="3 out of 5"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span>
+                </header>
+                <p>Benefits go through the partner agency. Night differential is paid, but onboarding took longer than expected. A fair first job for BPO IT operations.</p>
+                <footer><button class="link" type="button">Helpful (8)</button><button class="link muted" type="button">Report</button></footer>
+            </article>
+
+            <details class="write">
+                <summary>Write an anonymous review</summary>
+                <form class="form">
+                    <div class="row2">
+                        <div class="field"><label for="review-job-title">Job title</label><input id="review-job-title" type="text" /></div>
+                        <div class="field">
+                            <label for="review-employment-type">Employment type</label>
+                            <select id="review-employment-type"><option>Direct hire</option><option>Agency hired</option><option>Project based</option></select>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="review-body">Your review</label>
+                        <textarea id="review-body" rows="4" placeholder="Pay on time, overtime, 13th-month pay, benefits, day-to-day work."></textarea>
+                    </div>
+                    <button class="btn primary" type="button">Post review</button>
+                </form>
+            </details>
+        </section>
+
+        <aside>
+            <h2>Monthly pay, PHP</h2>
+            <ul class="rows pay">
+                <li>
+                    <div class="grow">
+                        <div class="strong">Software engineer</div>
+                        <div class="muted">Direct hire, 12 reports</div>
+                        <div class="range" aria-hidden="true"><i style="left:52.5%;width:45%"></i><b style="left:68.75%"></b></div>
+                        <div class="muted small">₱42,000 to ₱78,000</div>
+                    </div>
+                    <span class="num strong">₱55,000</span>
+                </li>
+                <li>
+                    <div class="grow">
+                        <div class="strong">QA analyst</div>
+                        <div class="muted">Direct hire, 8 reports</div>
+                        <div class="range" aria-hidden="true"><i style="left:37.5%;width:22.5%"></i><b style="left:47.5%"></b></div>
+                        <div class="muted small">₱30,000 to ₱48,000</div>
+                    </div>
+                    <span class="num strong">₱38,000</span>
+                </li>
+                <li>
+                    <div class="grow">
+                        <div class="strong">Customer support rep</div>
+                        <div class="muted">Agency hired, 15 reports</div>
+                        <div class="range" aria-hidden="true"><i style="left:27.5%;width:11.25%"></i><b style="left:33.1%"></b></div>
+                        <div class="muted small">₱22,000 to ₱31,000</div>
+                    </div>
+                    <span class="num strong">₱26,500</span>
+                </li>
+            </ul>
+
+            <h2>Labor compliance</h2>
+            <p class="muted">Share of reviewers who report each item, based on submissions. Not an official DOLE finding.</p>
+            <ul class="rows">
+                <li><div class="grow">SSS, PhilHealth and Pag-IBIG remitted<div class="meter"><i style="width:90%"></i></div></div><span class="num muted">19/21</span></li>
+                <li><div class="grow">13th-month pay released on time<div class="meter"><i style="width:95%"></i></div></div><span class="num muted">20/21</span></li>
+                <li><div class="grow">Overtime and night differential paid<div class="meter"><i style="width:76%"></i></div></div><span class="num muted">16/21</span></li>
+            </ul>
+        </aside>
+    </div>
+</div>

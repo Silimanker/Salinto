@@ -1,0 +1,52 @@
+@page "/dashboard"
+
+<div class="wrap">
+    <div class="pagehead">
+        <div>
+            <h1>Kumusta, Juan</h1>
+            <p class="lede">Your followed companies and contributions.</p>
+        </div>
+        <a class="btn primary" href="company">Review a company</a>
+    </div>
+
+    <dl class="stats">
+        <div><dt>Companies followed</dt><dd>2</dd></div>
+        <div><dt>Reviews written</dt><dd>2</dd></div>
+        <div><dt>Salary reports</dt><dd>3</dd></div>
+        <div><dt>Helpful votes received</dt><dd>22</dd></div>
+    </dl>
+
+    <div class="cols">
+        <section>
+            <h2>Followed companies</h2>
+            <ul class="rows">
+                <li>
+                    <span class="badge">TP</span>
+                    <div class="grow">
+                        <a class="strong" href="company">TechPulse Philippines Inc.</a>
+                        <div class="muted">Taguig, Metro Manila. IT and BPO services</div>
+                    </div>
+                    <span class="num">4.2</span>
+                    <button class="link danger" type="button">Unfollow</button>
+                </li>
+                <li>
+                    <span class="badge">MB</span>
+                    <div class="grow">
+                        <a class="strong" href="company">MetroBank Solutions</a>
+                        <div class="muted">Makati City. Banking and finance</div>
+                    </div>
+                    <span class="num">4.5</span>
+                    <button class="link danger" type="button">Unfollow</button>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Your contributions</h2>
+            <ul class="rows">
+                <li><div class="grow"><div class="strong">Review of TechPulse Philippines</div><div class="muted">4 of 5, direct hire. Sep 18, 2026</div></div></li>
+                <li><div class="grow"><div class="strong">Salary report, Software engineer</div><div class="muted">₱55,000 a month. Aug 12, 2026</div></div></li>
+            </ul>
+        </section>
+    </div>
+</div>

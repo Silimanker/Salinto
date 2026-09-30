@@ -1,0 +1,34 @@
+@page "/register"
+@layout AuthLayout
+
+<h1>Create your account</h1>
+<p class="lede">Read employer reviews and salary reports, then add your own.</p>
+
+<form class="form">
+    <div class="row2">
+        <div class="field">
+            <label for="first-name">First name</label>
+            <input id="first-name" type="text" autocomplete="given-name" />
+        </div>
+        <div class="field">
+            <label for="last-name">Last name</label>
+            <input id="last-name" type="text" autocomplete="family-name" />
+        </div>
+    </div>
+    <div class="field">
+        <label for="username">Username</label>
+        <input id="username" type="text" autocomplete="username" />
+    </div>
+    <div class="field">
+        <label for="email">Email address</label>
+        <input id="email" type="email" autocomplete="email" />
+    </div>
+    <div class="field">
+        <label for="password">Password</label>
+        <input id="password" type="password" autocomplete="new-password" />
+        <span class="hint">At least 8 characters.</span>
+    </div>
+    <a class="btn primary block" href="dashboard">Create account</a>
+</form>
+
+<p class="alt">Already registered? <a href="login">Log in</a></p>
