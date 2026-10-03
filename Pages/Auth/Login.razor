@@ -1,20 +1,42 @@
 @page "/"
 @page "/login"
 @layout AuthLayout
+@inject NavigationManager Navigation
 
 <h1>Log in</h1>
-<p class="lede">Welcome back.</p>
+<p class="mb-6 text-mute">Welcome back.</p>
 
-<form class="form">
-    <div class="field">
-        <label for="username-or-email">Username or email</label>
-        <input id="username-or-email" type="text" autocomplete="username" />
-    </div>
-    <div class="field">
-        <label for="password">Password</label>
-        <input id="password" type="password" autocomplete="current-password" />
-    </div>
-    <a class="btn primary block" href="dashboard">Log in</a>
-</form>
+<EditForm Model="loginForm" OnValidSubmit="HandleLogin" FormName="login" class="grid gap-4">
+    <DataAnnotationsValidator />
 
-<p class="alt">New to Salinto? <a href="register">Create an account</a></p>
+    <div class="grid gap-1.5">
+        <label class="label" for="username-or-email">Username or email</label>
+        <InputText id="username-or-email" class="input" @bind-Value="loginForm.UsernameOrEmail" autocomplete="username" />
+        <ValidationMessage For="() => loginForm.UsernameOrEmail" />
+    </div>
+
+    <div class="grid gap-1.5">
+        <div class="flex items-baseline justify-between">
+            <label class="label" for="password">Password</label>
+            <button type="button" class="link" @onclick="TogglePasswordVisibility">@(isPasswordVisible ? "Hide" : "Show")</button>
+        </div>
+        <InputText id="password" class="input" type="@passwordInputType" @bind-Value="loginForm.Password" autocomplete="current-password" />
+        <ValidationMessage For="() => loginForm.Password" />
+    </div>
+
+    <button class="btn btn-primary w-full py-3">Log in</button>
+</EditForm>
+
+<p class="mt-5 text-center text-sm">New to Salinto? <a href="register">Create an account</a></p>
+
+@code {
+    private readonly LoginForm loginForm = new();
+
+    private bool isPasswordVisible;
+
+    private string passwordInputType => isPasswordVisible ? "text" : "password";
+
+    private void TogglePasswordVisibility() => isPasswordVisible = !isPasswordVisible;
+
+    private void HandleLogin() => Navigation.NavigateTo("dashboard");
+}

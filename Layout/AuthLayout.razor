@@ -1,7 +1,7 @@
 @inherits LayoutComponentBase
 
-<div class="auth">
-    <a class="brand dark" href="login"><span class="mark">S</span>Salinto</a>
-    <main class="auth-card">@Body</main>
-    <p class="auth-note">Reviews are anonymous. Your name is never shown beside what you write.</p>
+<div class="flex min-h-screen flex-col items-center gap-6 px-4 py-12">
+    <a class="brand text-ink" href="login"><span class="mark">S</span>Salinto</a>
+    <main class="w-full max-w-md rounded border border-line bg-white p-8">@Body</main>
+    <p class="max-w-md text-center text-[13px] text-mute">Reviews are anonymous. Your name is never shown beside what you write.</p>
 </div>

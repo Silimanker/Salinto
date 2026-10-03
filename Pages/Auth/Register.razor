@@ -1,34 +1,61 @@
 @page "/register"
 @layout AuthLayout
+@inject NavigationManager Navigation
 
 <h1>Create your account</h1>
-<p class="lede">Read employer reviews and salary reports, then add your own.</p>
+<p class="mb-6 text-mute">Read employer reviews and salary reports, then add your own.</p>
 
-<form class="form">
-    <div class="row2">
-        <div class="field">
-            <label for="first-name">First name</label>
-            <input id="first-name" type="text" autocomplete="given-name" />
-        </div>
-        <div class="field">
-            <label for="last-name">Last name</label>
-            <input id="last-name" type="text" autocomplete="family-name" />
-        </div>
-    </div>
-    <div class="field">
-        <label for="username">Username</label>
-        <input id="username" type="text" autocomplete="username" />
-    </div>
-    <div class="field">
-        <label for="email">Email address</label>
-        <input id="email" type="email" autocomplete="email" />
-    </div>
-    <div class="field">
-        <label for="password">Password</label>
-        <input id="password" type="password" autocomplete="new-password" />
-        <span class="hint">At least 8 characters.</span>
-    </div>
-    <a class="btn primary block" href="dashboard">Create account</a>
-</form>
+<EditForm Model="registerForm" OnValidSubmit="HandleRegister" FormName="register" class="grid gap-4">
+    <DataAnnotationsValidator />
 
-<p class="alt">Already registered? <a href="login">Log in</a></p>
+    <div class="grid gap-4 sm:grid-cols-2">
+        <div class="grid gap-1.5">
+            <label class="label" for="first-name">First name</label>
+            <InputText id="first-name" class="input" @bind-Value="registerForm.FirstName" autocomplete="given-name" />
+            <ValidationMessage For="() => registerForm.FirstName" />
+        </div>
+        <div class="grid gap-1.5">
+            <label class="label" for="last-name">Last name</label>
+            <InputText id="last-name" class="input" @bind-Value="registerForm.LastName" autocomplete="family-name" />
+            <ValidationMessage For="() => registerForm.LastName" />
+        </div>
+    </div>
+
+    <div class="grid gap-1.5">
+        <label class="label" for="username">Username</label>
+        <InputText id="username" class="input" @bind-Value="registerForm.Username" autocomplete="username" />
+        <ValidationMessage For="() => registerForm.Username" />
+    </div>
+
+    <div class="grid gap-1.5">
+        <label class="label" for="email">Email address</label>
+        <InputText id="email" class="input" type="email" @bind-Value="registerForm.Email" autocomplete="email" />
+        <ValidationMessage For="() => registerForm.Email" />
+    </div>
+
+    <div class="grid gap-1.5">
+        <div class="flex items-baseline justify-between">
+            <label class="label" for="password">Password</label>
+            <button type="button" class="link" @onclick="TogglePasswordVisibility">@(isPasswordVisible ? "Hide" : "Show")</button>
+        </div>
+        <InputText id="password" class="input" type="@passwordInputType" @bind-Value="registerForm.Password" autocomplete="new-password" />
+        <span class="text-[13px] text-mute">At least 8 characters.</span>
+        <ValidationMessage For="() => registerForm.Password" />
+    </div>
+
+    <button class="btn btn-primary w-full py-3">Create account</button>
+</EditForm>
+
+<p class="mt-5 text-center text-sm">Already registered? <a href="login">Log in</a></p>
+
+@code {
+    private readonly RegisterForm registerForm = new();
+
+    private bool isPasswordVisible;
+
+    private string passwordInputType => isPasswordVisible ? "text" : "password";
+
+    private void TogglePasswordVisibility() => isPasswordVisible = !isPasswordVisible;
+
+    private void HandleRegister() => Navigation.NavigateTo("dashboard");
+}

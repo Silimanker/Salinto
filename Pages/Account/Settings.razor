@@ -1,17 +1,54 @@
 @page "/settings"
+@inject IProfileService ProfileService
 
-<div class="wrap narrow">
+<div class="page-narrow">
     <h1>Settings</h1>
-    <p class="lede">Choose what Salinto emails you about.</p>
+    <p class="mb-6 text-mute">Choose what Salinto emails you about.</p>
 
-    <form class="form">
-        <label class="check">
-            <input type="checkbox" checked />
-            <span>
-                <span class="strong">Email me about followed companies</span>
-                <span class="muted block">New reviews and salary reports for companies you follow.</span>
-            </span>
-        </label>
-        <div class="actions"><button class="btn primary" type="button">Save settings</button></div>
-    </form>
+    @if (profile is null)
+    {
+        <p class="text-mute">Loading settings.</p>
+    }
+    else
+    {
+        <EditForm Model="profile" OnValidSubmit="HandleSaveAsync" FormName="settings" class="grid gap-5">
+            <label class="flex items-start gap-3">
+                <InputCheckbox class="mt-1 accent-accent-strong" @bind-Value="profile.EmailNotificationsEnabled" />
+                <span>
+                    <span class="block font-semibold text-ink">Email me about followed companies</span>
+                    <span class="block text-mute">New reviews and salary reports for companies you follow.</span>
+                </span>
+            </label>
+
+            <label class="flex items-start gap-3">
+                <InputCheckbox class="mt-1 accent-accent-strong" @bind-Value="profile.WeeklyDigestEnabled" />
+                <span>
+                    <span class="block font-semibold text-ink">Send a weekly digest</span>
+                    <span class="block text-mute">One email a week with the most helpful new reviews.</span>
+                </span>
+            </label>
+
+            <div class="flex items-center gap-4">
+                <button class="btn btn-primary">Save settings</button>
+                @if (wasSaved)
+                {
+                    <span class="text-sm font-semibold text-ok" role="status">Settings saved.</span>
+                }
+            </div>
+        </EditForm>
+    }
 </div>
+
+@code {
+    private UserProfile? profile;
+
+    private bool wasSaved;
+
+    protected override async Task OnInitializedAsync() => profile = await ProfileService.GetProfileAsync();
+
+    private async Task HandleSaveAsync()
+    {
+        await ProfileService.SaveProfileAsync(profile!);
+        wasSaved = true;
+    }
+}

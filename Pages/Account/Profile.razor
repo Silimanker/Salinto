@@ -1,18 +1,61 @@
 @page "/profile"
+@inject IProfileService ProfileService
 
-<div class="wrap narrow">
+<div class="page-narrow">
     <h1>Profile</h1>
-    <p class="lede">How you appear next to contributions you choose to attribute.</p>
+    <p class="mb-6 text-mute">How you appear next to contributions you choose to attribute.</p>
 
-    <form class="form">
-        <div class="row2">
-            <div class="field"><label for="display-name">Display name</label><input id="display-name" type="text" value="Juan Dela Cruz" /></div>
-            <div class="field"><label for="location">Location</label><input id="location" type="text" value="Cebu City, Philippines" /></div>
-        </div>
-        <div class="field">
-            <label for="bio">About your work</label>
-            <textarea id="bio" rows="3">Software developer with 4 years in BPO and tech startups in Metro Cebu.</textarea>
-        </div>
-        <div class="actions"><button class="btn primary" type="button">Save profile</button></div>
-    </form>
+    @if (profile is null)
+    {
+        <p class="text-mute">Loading profile.</p>
+    }
+    else
+    {
+        <EditForm Model="profile" OnValidSubmit="HandleSaveAsync" FormName="profile" class="grid gap-4">
+            <DataAnnotationsValidator />
+
+            <div class="grid gap-4 sm:grid-cols-2">
+                <div class="grid gap-1.5">
+                    <label class="label" for="display-name">Display name</label>
+                    <InputText id="display-name" class="input" @bind-Value="profile.DisplayName" />
+                    <ValidationMessage For="() => profile.DisplayName" />
+                </div>
+                <div class="grid gap-1.5">
+                    <label class="label" for="location">Location</label>
+                    <InputText id="location" class="input" @bind-Value="profile.Location" />
+                </div>
+            </div>
+
+            <div class="grid gap-1.5">
+                <label class="label" for="bio">About your work</label>
+                <InputTextArea id="bio" class="input" rows="3" @bind-Value="profile.Bio" @bind-Value:event="oninput" />
+                <div class="flex justify-between">
+                    <ValidationMessage For="() => profile.Bio" />
+                    <span class="ml-auto text-xs text-mute">@profile.Bio.Length / 300</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <button class="btn btn-primary">Save profile</button>
+                @if (wasSaved)
+                {
+                    <span class="text-sm font-semibold text-ok" role="status">Profile saved.</span>
+                }
+            </div>
+        </EditForm>
+    }
 </div>
+
+@code {
+    private UserProfile? profile;
+
+    private bool wasSaved;
+
+    protected override async Task OnInitializedAsync() => profile = await ProfileService.GetProfileAsync();
+
+    private async Task HandleSaveAsync()
+    {
+        await ProfileService.SaveProfileAsync(profile!);
+        wasSaved = true;
+    }
+}
