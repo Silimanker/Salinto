@@ -1,0 +1,29 @@
+<article class="border-t border-line py-4">
+    <header class="flex justify-between gap-4">
+        <div>
+            <span class="font-semibold text-ink">@Review.JobTitle</span>
+            <span class="tag">@Review.EmploymentType.ToLabel()</span>
+            <div class="text-mute">@Review.SubmittedOn.ToString("MMM d, yyyy")</div>
+        </div>
+        <span class="flex items-center gap-[3px]" aria-label="@Review.Rating out of 5">
+            @for (var pipNumber = 1; pipNumber <= 5; pipNumber++)
+            {
+                <i class="size-2.5 rounded-sm @(pipNumber <= Review.Rating ? "bg-accent" : "bg-line")"></i>
+            }
+        </span>
+    </header>
+
+    <p class="my-2.5 max-w-prose">@Review.Body</p>
+
+    <button type="button" class="link" aria-pressed="@hasVoted" @onclick="ToggleHelpfulVote">
+        @(hasVoted ? "Marked helpful" : "Helpful") (@(Review.HelpfulCount + (hasVoted ? 1 : 0)))
+    </button>
+</article>
+
+@code {
+    [Parameter, EditorRequired] public Review Review { get; set; } = default!;
+
+    private bool hasVoted;
+
+    private void ToggleHelpfulVote() => hasVoted = !hasVoted;
+}

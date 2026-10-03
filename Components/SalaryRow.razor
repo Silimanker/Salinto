@@ -1,0 +1,23 @@
+<li class="row items-start">
+    <div class="min-w-0 flex-1">
+        <div class="font-semibold text-ink">@Entry.JobTitle</div>
+        <div class="text-mute">@Entry.EmploymentType.ToLabel(), @Entry.ReportCount reports</div>
+
+        <div class="relative my-2.5 h-1.5 rounded-full bg-line" aria-hidden="true">
+            <i class="absolute top-0 h-full rounded-full bg-orange-300" style="left:@(ToPercent(Entry.MinimumMonthly))%;width:@(ToPercent(Entry.MaximumMonthly - Entry.MinimumMonthly))%"></i>
+            <b class="absolute -top-0.5 h-2.5 w-0.5 bg-ink" style="left:@(ToPercent(Entry.MedianMonthly))%"></b>
+        </div>
+
+        <div class="text-[13px] text-mute">@PesoFormatter.ToPesos(Entry.MinimumMonthly) to @PesoFormatter.ToPesos(Entry.MaximumMonthly)</div>
+    </div>
+    <span class="font-semibold tabular-nums text-ink">@PesoFormatter.ToPesos(Entry.MedianMonthly)</span>
+</li>
+
+@code {
+    [Parameter, EditorRequired] public SalaryEntry Entry { get; set; } = default!;
+
+    // The bar is drawn against this monthly pay, so every row uses the same scale.
+    [Parameter] public int ChartMaximum { get; set; } = 80000;
+
+    private int ToPercent(int amount) => Math.Clamp(amount * 100 / ChartMaximum, 0, 100);
+}

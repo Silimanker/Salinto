@@ -1,52 +1,86 @@
 @page "/dashboard"
+@inject IProfileService ProfileService
+@inject ICompanyService CompanyService
+@inject IUserActivityService UserActivityService
 
-<div class="wrap">
-    <div class="pagehead">
+<div class="page">
+    <div class="mb-6 flex items-start justify-between gap-4">
         <div>
-            <h1>Kumusta, Juan</h1>
-            <p class="lede">Your followed companies and contributions.</p>
+            <h1>Kumusta, @firstName</h1>
+            <p class="text-mute">Your followed companies and contributions.</p>
         </div>
-        <a class="btn primary" href="company">Review a company</a>
+        <a class="btn btn-primary" href="companies">Find a company</a>
     </div>
 
-    <dl class="stats">
-        <div><dt>Companies followed</dt><dd>2</dd></div>
-        <div><dt>Reviews written</dt><dd>2</dd></div>
-        <div><dt>Salary reports</dt><dd>3</dd></div>
-        <div><dt>Helpful votes received</dt><dd>22</dd></div>
+    <dl class="mb-10 grid grid-cols-2 divide-x divide-line border-y border-line">
+        <div class="py-4 pr-5">
+            <dt class="text-[13px] text-mute">Companies followed</dt>
+            <dd class="text-3xl font-bold tabular-nums text-ink">@followedCompanies.Count</dd>
+        </div>
+        <div class="py-4 pl-5">
+            <dt class="text-[13px] text-mute">Contributions</dt>
+            <dd class="text-3xl font-bold tabular-nums text-ink">@contributions.Count</dd>
+        </div>
     </dl>
 
-    <div class="cols">
+    <div class="grid gap-10 md:grid-cols-2">
         <section>
             <h2>Followed companies</h2>
             <ul class="rows">
-                <li>
-                    <span class="badge">TP</span>
-                    <div class="grow">
-                        <a class="strong" href="company">TechPulse Philippines Inc.</a>
-                        <div class="muted">Taguig, Metro Manila. IT and BPO services</div>
-                    </div>
-                    <span class="num">4.2</span>
-                    <button class="link danger" type="button">Unfollow</button>
-                </li>
-                <li>
-                    <span class="badge">MB</span>
-                    <div class="grow">
-                        <a class="strong" href="company">MetroBank Solutions</a>
-                        <div class="muted">Makati City. Banking and finance</div>
-                    </div>
-                    <span class="num">4.5</span>
-                    <button class="link danger" type="button">Unfollow</button>
-                </li>
+                @foreach (var company in followedCompanies)
+                {
+                    <CompanyRow Company="company">
+                        <button type="button" class="link text-danger" @onclick="() => HandleUnfollowAsync(company.Id)">Unfollow</button>
+                    </CompanyRow>
+                }
+                @if (followedCompanies.Count == 0)
+                {
+                    <li class="py-4 text-mute">You are not following any companies yet. <a href="companies">Find one</a></li>
+                }
             </ul>
         </section>
 
         <section>
             <h2>Your contributions</h2>
             <ul class="rows">
-                <li><div class="grow"><div class="strong">Review of TechPulse Philippines</div><div class="muted">4 of 5, direct hire. Sep 18, 2026</div></div></li>
-                <li><div class="grow"><div class="strong">Salary report, Software engineer</div><div class="muted">₱55,000 a month. Aug 12, 2026</div></div></li>
+                @foreach (var contribution in contributions)
+                {
+                    <li class="row">
+                        <div>
+                            <div class="font-semibold text-ink">@contribution.Title</div>
+                            <div class="text-mute">@contribution.Detail</div>
+                        </div>
+                    </li>
+                }
             </ul>
         </section>
     </div>
 </div>
+
+@code {
+    private string firstName = "";
+
+    private IReadOnlyList<Company> followedCompanies = [];
+    private IReadOnlyList<Contribution> contributions = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        var profile = await ProfileService.GetProfileAsync();
+        firstName = profile.DisplayName.Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? "";
+
+        contributions = await UserActivityService.GetContributionsAsync();
+        await LoadFollowedCompaniesAsync();
+    }
+
+    private async Task LoadFollowedCompaniesAsync()
+    {
+        var followedCompanyIds = await UserActivityService.GetFollowedCompanyIdsAsync();
+        followedCompanies = await CompanyService.GetCompaniesByIdsAsync(followedCompanyIds);
+    }
+
+    private async Task HandleUnfollowAsync(int companyId)
+    {
+        await UserActivityService.ToggleFollowAsync(companyId);
+        await LoadFollowedCompaniesAsync();
+    }
+}

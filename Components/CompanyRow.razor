@@ -1,0 +1,16 @@
+<li class="row">
+    <span class="badge">@Company.Initials</span>
+    <div class="min-w-0 flex-1">
+        <a class="font-semibold text-ink no-underline hover:underline" href="companies/@Company.Id">@Company.Name</a>
+        <div class="text-mute">@Company.Industry. @Company.Location</div>
+    </div>
+    <span class="tabular-nums">@Company.AverageRating.ToString("0.0")</span>
+    @ChildContent
+</li>
+
+@code {
+    [Parameter, EditorRequired] public Company Company { get; set; } = default!;
+
+    // Optional trailing actions, such as an Unfollow button.
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

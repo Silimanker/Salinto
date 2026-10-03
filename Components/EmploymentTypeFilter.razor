@@ -1,0 +1,25 @@
+<div class="mb-8 inline-flex flex-wrap overflow-hidden rounded border border-slate-300" role="group" aria-label="Employment type">
+    @foreach (var option in options)
+    {
+        <button type="button"
+                class="@ButtonClass(option)"
+                aria-pressed="@(option == Selected)"
+                @onclick="() => SelectedChanged.InvokeAsync(option)">
+            @(option is null ? "All" : option.Value.ToLabel())
+        </button>
+    }
+</div>
+
+@code {
+    private static readonly EmploymentType?[] options =
+    {
+        null, EmploymentType.DirectHire, EmploymentType.AgencyHired, EmploymentType.ProjectBased
+    };
+
+    [Parameter] public EmploymentType? Selected { get; set; }
+    [Parameter] public EventCallback<EmploymentType?> SelectedChanged { get; set; }
+
+    private string ButtonClass(EmploymentType? option) =>
+        "cursor-pointer border-l border-slate-300 px-4 py-2 text-sm font-medium first:border-l-0 "
+        + (option == Selected ? "bg-ink text-white" : "bg-white text-body hover:bg-slate-100");
+}

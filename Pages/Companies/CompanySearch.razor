@@ -1,0 +1,34 @@
+@page "/companies"
+@inject ICompanyService CompanyService
+
+<div class="page">
+    <h1>Find a company</h1>
+    <p class="mb-6 text-mute">Search by company name, industry or city.</p>
+
+    <input class="input max-w-xl" type="search" aria-label="Search companies"
+           placeholder="Try TechPulse, banking or Cebu"
+           @bind="searchText" @bind:event="oninput" @bind:after="SearchAsync" />
+
+    <p class="mb-3 mt-6 text-sm text-mute" role="status">@companies.Count @(companies.Count == 1 ? "company" : "companies")</p>
+
+    <ul class="rows">
+        @foreach (var company in companies)
+        {
+            <CompanyRow Company="company" />
+        }
+        @if (companies.Count == 0)
+        {
+            <li class="py-6 text-mute">No companies match "@searchText". Try a shorter search.</li>
+        }
+    </ul>
+</div>
+
+@code {
+    private string searchText = "";
+
+    private IReadOnlyList<Company> companies = [];
+
+    protected override async Task OnInitializedAsync() => await SearchAsync();
+
+    private async Task SearchAsync() => companies = await CompanyService.SearchCompaniesAsync(searchText);
+}
