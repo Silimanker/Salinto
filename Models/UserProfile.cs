@@ -4,6 +4,8 @@ namespace Salinto.Models;
 
 public class UserProfile
 {
+    public int UserId { get; set; }
+
     [Required(ErrorMessage = "Enter a display name.")]
     public string DisplayName { get; set; } = "";
 

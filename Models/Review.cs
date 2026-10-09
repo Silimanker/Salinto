@@ -7,4 +7,8 @@ public record Review(
     DateOnly SubmittedOn,
     int Rating,
     string Body,
-    int HelpfulCount);
+    int HelpfulCount)
+{
+    public int Id { get; init; }
+    public int AuthorId { get; init; }
+}

@@ -7,4 +7,7 @@ public record SalaryEntry(
     int ReportCount,
     int MinimumMonthly,
     int MedianMonthly,
-    int MaximumMonthly);
+    int MaximumMonthly)
+{
+    public int Id { get; init; }
+}
